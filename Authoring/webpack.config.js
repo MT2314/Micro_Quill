@@ -4,7 +4,7 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:3002/",
+    publicPath: "http://localhost:3000/",
   },
 
   resolve: {
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 3002,
+    port: 3000,
     historyApiFallback: true,
   },
 
@@ -41,10 +41,13 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "Notebook",
+      name: "Authoring",
       filename: "remoteEntry.js",
-      remotes: { Header: "Header@http://localhost:3001/remoteEntry.js" },
-      exposes: { "./Notebook": "./src/Notebook.jsx" },
+      remotes: {
+        Header: "Header@http://localhost:3001/remoteEntry.js",
+        Notebook: "Notebook@http://localhost:3002/remoteEntry.js",
+      },
+      exposes: {},
       shared: {
         ...deps,
         react: {
